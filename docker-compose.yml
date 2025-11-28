@@ -1,0 +1,24 @@
+services:
+  ookla_speedtest:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ookla_server
+    restart: always
+    ports:
+      - "8080:8080/tcp"
+      - "8080:8080/udp"
+      - "5060:5060/tcp"
+      - "5060:5060/udp"
+    volumes:
+      - ./config_data/OoklaServer.properties:/opt/ookla/OoklaServer.properties
+      - ./config_data:/opt/ookla
+
+    networks:
+      - ookla_net
+
+networks:
+  ookla_net:
+    driver: bridge
+    enable_ipv6: true
+    name: ookla_net
